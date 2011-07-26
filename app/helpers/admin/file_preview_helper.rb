@@ -6,6 +6,8 @@ module Admin
         :paperclip
       elsif defined?(Dragonfly) && attachment.is_a?(Dragonfly::ActiveModelExtensions::Attachment)
         :dragonfly
+      elsif defined?(CarrierWave) && attachment.is_a?(CarrierWave::Uploader::Base)
+        :carrierwave
       end
     end
 
@@ -31,14 +33,16 @@ module Admin
       field = case get_type_of_attachment(attachment)
               when :dragonfly then attribute
               when :paperclip then "#{attribute}_file_name"
+              when :carrierwave then attribute
               end
+      attachment_type = get_type_of_attachment(attachment)        
 
       if present && !validators.include?(field) && attachment
         attribute_i18n = @item.class.human_attribute_name(attribute)
         message = Typus::I18n.t("Remove")
         label_text = <<-HTML
 #{attribute_i18n}
-<small>#{link_to message, { :action => 'update', :id => @item.id, :attribute => attribute }, :confirm => Typus::I18n.t("Are you sure?")}</small>
+<small>#{link_to message, { :action => 'detach', :id => @item.id, :attribute => attribute, :attachment_type => attachment_type }, :confirm => Typus::I18n.t("Are you sure?")}</small>
         HTML
         label_text.html_safe
       end
@@ -75,6 +79,20 @@ module Admin
         end
       end
     end
-
+    
+    def typus_file_preview_for_carrierwave(attachment, options = {})
+      if attachment.file
+        versions = attachment.versions.keys
+        if versions.include?(Typus.carrierwave_preview) && versions.include?(Typus.carrierwave_thumb)
+          render "admin/helpers/file_preview",
+                 :preview => attachment.send(Typus.carrierwave_preview).url,
+                 :thumb => attachment.send(Typus.carrierwave_thumb).url,
+                 :options => options
+        else
+          link_to attachment.file.original_filename, attachment.url
+        end
+      end
+    end
   end
+
 end

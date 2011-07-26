@@ -17,7 +17,11 @@ class Admin::FilePreviewHelperTest < ActiveSupport::TestCase
     should "return :paperclip" do
       assert_equal :paperclip, get_type_of_attachment(@asset.paperclip)
     end
-
+    
+    should "return :carrierwave" do
+      assert_equal :carrierwave, get_type_of_attachment(@asset.carrierwave)
+    end
+    
   end
 
   context "link_to_detach_attribute" do

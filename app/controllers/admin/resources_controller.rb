@@ -11,7 +11,7 @@ class Admin::ResourcesController < Admin::BaseController
 
   before_filter :get_model
   before_filter :set_context # MultiSite ...
-  before_filter :get_object, :only => Whitelist + [:show]
+  before_filter :get_object, :only => Whitelist + [:show, :detach]
   before_filter :check_resource_ownership, :only => Whitelist
   before_filter :check_if_user_can_perform_action_on_resources
 
@@ -95,6 +95,21 @@ class Admin::ResourcesController < Admin::BaseController
         format.html { render :edit }
         format.json { render :json => @item.errors, :status => :unprocessable_entity }
       end
+    end
+  end
+
+  def detach
+    attribute = params[:attribute]
+    attachment = @item.send(params[:attribute])
+    attachment_type = get_type_of_attachment(attachment)
+    detatch_params = { params[:attribute] => nil }
+    if attachment_type == :carrierwave
+      detatch_params["remove_#{attribute}"] = true
+    end
+    if @item.update_attributes(detatch_params)
+      redirect_on_success
+    else
+      render :edit
     end
   end
 

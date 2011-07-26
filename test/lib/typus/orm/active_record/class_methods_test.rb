@@ -105,7 +105,8 @@ class ClassMethodsTest < ActiveSupport::TestCase
       expected = [["caption", :string],
                   ["dragonfly", :file],
                   ["dragonfly_required", :file],
-                  ["original_file_name", :virtual]]
+                  ["original_file_name", :virtual], 
+                  ["carrierwave", :file]]
 
       assert_equal expected.map { |i| i.first }, Asset.typus_fields_for(:special).keys
       assert_equal expected.map { |i| i.last }, Asset.typus_fields_for(:special).values
@@ -372,10 +373,10 @@ class ClassMethodsTest < ActiveSupport::TestCase
 
     should "return data for existing model" do
       expected = {"application"=>"CRUD Extended",
-                  "fields"=>{"default"=>"caption, dragonfly, dragonfly_required",
-                             "special"=>"caption, dragonfly, dragonfly_required, original_file_name",
-                             "form"=>"caption, dragonfly, dragonfly_required, paperclip, paperclip_required, original_file_name",
-                             "new"=>"dragonfly, dragonfly_required, paperclip, paperclip_required"}}
+                  "fields"=>{"default"=>"caption, dragonfly, dragonfly_required, carrierwave",
+                             "special"=>"caption, dragonfly, dragonfly_required, original_file_name, carrierwave",
+                             "form"=>"caption, dragonfly, dragonfly_required, paperclip, paperclip_required, original_file_name, carrierwave",
+                             "new"=>"dragonfly, dragonfly_required, paperclip, paperclip_required, carrierwave"}}
       assert_equal expected, Asset.read_model_config
     end
 

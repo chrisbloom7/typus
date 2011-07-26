@@ -22,7 +22,7 @@ class String
       "create"
     when "index", "show", "autocomplete"
       "read"
-    when "edit", "update", "position", "toggle", "relate", "unrelate"
+    when "edit", "update", "position", "toggle", "relate", "unrelate", "detach"
       "update"
     when "destroy", "trash"
       "delete"
