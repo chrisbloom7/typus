@@ -6,7 +6,8 @@ class Admin::ResourcesController < Admin::BaseController
   include Typus::Controller::Autocomplete
   include Typus::Controller::Filters
   include Typus::Controller::Format
-
+  include Admin::FilePreviewHelper
+  
   Whitelist = [:edit, :update, :destroy, :toggle, :position, :relate, :unrelate]
 
   before_filter :get_model
