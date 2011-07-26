@@ -56,6 +56,18 @@ class TypusTest < ActiveSupport::TestCase
 
     end
 
+    context "carrierwave" do
+
+      should "verify default_config for image_preview_size" do
+        assert_equal :preview, Typus.carrierwave_preview
+      end
+
+      should "verify default_config for image_thumb_size" do
+        assert_equal :thumb, Typus.carrierwave_thumb
+      end
+
+    end
+
   end
 
   should "verify default_config for relationship" do

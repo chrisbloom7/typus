@@ -54,6 +54,32 @@ class Admin::AssetsControllerTest < ActionController::TestCase
       assert @asset.dragonfly_required.present?
     end
 
+    pending "verify carrierwave can be removed" do
+      get :edit, :id => @asset.id
+      assert_match /Remove/, @response.body
+
+      assert @asset.carrierwave_uid.present?
+
+      get :update, :id => @asset.id, :attribute => "carrierwave"
+      assert_response :redirect
+      assert_redirected_to "/admin/assets/edit/#{@asset.id}"
+      assert_equal "Asset successfully updated.", flash[:notice]
+
+      @asset.reload
+      assert @asset.carrierwave_uid.blank?
+    end
+
+    pending "verify carrierwave_required can not removed" do
+      get :edit, :id => @asset.id
+      assert_no_match /Remove required file/, @response.body
+
+      get :update, :id => @asset.id, :attribute => "carrierwave_required"
+      assert_response :success
+
+      @asset.reload
+      assert @asset.carrierwave_required.present?
+    end
+    
     should "verify message on polymorphic relationship" do
       asset = Factory(:asset)
       get :edit, :id => asset.id, :resource => @post.class.name, :resource_id => @post.id
@@ -88,7 +114,8 @@ class Admin::AssetsControllerTest < ActionController::TestCase
       setup do
         @asset = { :caption => "My Caption",
                    :dragonfly_required => File.new("#{Rails.root}/public/images/rails.png"),
-                   :paperclip_required => File.new("#{Rails.root}/public/images/rails.png") }
+                   :paperclip_required => File.new("#{Rails.root}/public/images/rails.png"),
+                   :carrierwave_required => File.new("#{Rails.root}/public/images/rails.png") }
       end
 
       should "redirect to edit with custom layout" do
@@ -125,6 +152,8 @@ class Admin::AssetsControllerTest < ActionController::TestCase
       setup do
         @asset = Factory(:asset)
       end
+      
+      pending "Do we need to add paperclip and carrierwave support to these tests?"
 
       should "redirect to edit with custom layout" do
         asset = {:caption => "My Caption", :dragonfly_required => File.new("#{Rails.root}/public/images/rails.png")}

@@ -23,6 +23,8 @@ Factory.define :asset do |f|
   f.paperclip File.new("#{Rails.root}/public/images/rails.png")
   f.paperclip_required File.new("#{Rails.root}/public/images/rails.png")
   f.carrierwave File.new("#{Rails.root}/public/images/rails.png")
+  f.carrierwave_required File.new("#{Rails.root}/public/images/rails.png")
+  f.carrierwave_textfile File.new("#{Rails.root}/config/database.yml")
 end
 
 Factory.define :category do |f|

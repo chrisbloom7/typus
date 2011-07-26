@@ -8,7 +8,7 @@
 - CRUD and custom actions for your models on a clean interface.
 - Internationalized interface ([See available translations][locales])
 - Customizable and extensible templates.
-- Integrated [paperclip][paperclip] and [dragonfly][dragonfly] attachments viewer.
+- Integrated [paperclip][paperclip], [dragonfly][dragonfly] and [carrierwave][carrierwave] image viewer.
 - Works with `Rails 3.0.X`.
 - Tested with latest versions of `1.8.7`, `ree`, `1.9.2` and `jruby`.
 - Tested with `SQLite`, `MySQL` and `PostgreSQL`.
@@ -43,5 +43,6 @@ Typus is released under the MIT license.
 
 [paperclip]: http://rubygems.org/gems/paperclip
 [dragonfly]: http://rubygems.org/gems/dragonfly
+[carrierwave]: http://rubygems.org/gems/carrierwave
 [code]: https://github.com/typus/typus/tree/master/test/fixtures/rails_app
 [locales]: https://github.com/typus/typus/tree/master/config/locales

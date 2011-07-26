@@ -61,6 +61,7 @@ module Typus
               dragonfly = respond_to?(:dragonfly_attachment_classes) && dragonfly_attachment_classes.map { |i| i.attribute }.include?(field)
               paperclip = respond_to?(:attachment_definitions) && attachment_definitions.try(:has_key?, field)
               carrierwave = method_defined?("#{field}_processing_error".to_sym) && method_defined?("#{field}_integrity_error".to_sym)
+              
               if dragonfly || paperclip || carrierwave
                 fields_with_type[field.to_s] = :file
                 next

@@ -108,7 +108,9 @@ module Typus
   @@image_thumb_size = '150x150#'
 
   ##
-  # Define `carrierwave` attachment styles.
+  # Define `carrierwave` attachment versions. Both of these must be defined in
+  # the attached uploader in order for Typus to show image previews.
+  #
   
   mattr_accessor :carrierwave_preview
   @@carrierwave_preview = :preview

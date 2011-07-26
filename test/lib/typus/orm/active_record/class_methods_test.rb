@@ -106,7 +106,9 @@ class ClassMethodsTest < ActiveSupport::TestCase
                   ["dragonfly", :file],
                   ["dragonfly_required", :file],
                   ["original_file_name", :virtual], 
-                  ["carrierwave", :file]]
+                  ["carrierwave", :file], 
+                  ["carrierwave_required", :file], 
+                  ["carrierwave_textfile", :file]]
 
       assert_equal expected.map { |i| i.first }, Asset.typus_fields_for(:special).keys
       assert_equal expected.map { |i| i.last }, Asset.typus_fields_for(:special).values
@@ -129,12 +131,12 @@ class ClassMethodsTest < ActiveSupport::TestCase
     end
 
     should "return fields for new Asset" do
-      expected = %w(dragonfly dragonfly_required paperclip paperclip_required)
+      expected = %w(dragonfly dragonfly_required paperclip paperclip_required carrierwave carrierwave_required carrierwave_textfile)
       assert_equal expected, Asset.typus_fields_for(:new).keys
     end
 
     should "return fields for edit Asset" do
-      expected = %w(caption dragonfly dragonfly_required paperclip paperclip_required original_file_name)
+      expected = %w(caption dragonfly dragonfly_required paperclip paperclip_required original_file_name carrierwave carrierwave_required carrierwave_textfile)
       assert_equal expected, Asset.typus_fields_for(:edit).keys
     end
 
@@ -373,10 +375,10 @@ class ClassMethodsTest < ActiveSupport::TestCase
 
     should "return data for existing model" do
       expected = {"application"=>"CRUD Extended",
-                  "fields"=>{"default"=>"caption, dragonfly, dragonfly_required, carrierwave",
-                             "special"=>"caption, dragonfly, dragonfly_required, original_file_name, carrierwave",
-                             "form"=>"caption, dragonfly, dragonfly_required, paperclip, paperclip_required, original_file_name, carrierwave",
-                             "new"=>"dragonfly, dragonfly_required, paperclip, paperclip_required, carrierwave"}}
+                  "fields"=>{"default"=>"caption, dragonfly, dragonfly_required",
+                             "special"=>"caption, dragonfly, dragonfly_required, original_file_name",
+                             "form"=>"caption, dragonfly, dragonfly_required, paperclip, paperclip_required, original_file_name, carrierwave, carrierwave_required, carrierwave_textfile",
+                             "new"=>"dragonfly, dragonfly_required, paperclip, paperclip_required, carrierwave, carrierwave_required, carrierwave_textfile"}}
       assert_equal expected, Asset.read_model_config
     end
 

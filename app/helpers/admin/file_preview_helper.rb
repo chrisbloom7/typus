@@ -17,7 +17,7 @@ module Admin
       attachment = @item.send(attribute)
 
       # We are here and we already know we are handling attachments, but
-      # `dragonfly` and `paperclip` have different behaviors.
+      # `paperclip` behaves differently than `dragonfly` and `carrierwave`
 
       if defined?(Paperclip)
         present = case attachment
