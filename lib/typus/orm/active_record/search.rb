@@ -76,6 +76,7 @@ module Typus
         #
         def build_conditions(params)
           Array.new.tap do |conditions|
+            params[:filters] ||= {}
             query_params = params[:filters].dup
 
             query_params.reject! do |k, v|
