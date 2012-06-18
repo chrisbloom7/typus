@@ -26,7 +26,7 @@ module Admin
       hidden_filters = params.dup
 
       # Remove default params.
-      rejections = %w(controller action locale utf8 sort_order order_by)
+      rejections = %w(controller action locale utf8 sort_order order_by format)
       hidden_filters.delete_if { |k, v| rejections.include?(k) }
 
       # Remove also custom params.
