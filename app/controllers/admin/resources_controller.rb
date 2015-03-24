@@ -103,11 +103,19 @@ class Admin::ResourcesController < Admin::BaseController
     attribute = params[:attribute]
     attachment = @item.send(params[:attribute])
     attachment_type = get_type_of_attachment(attachment)
-    detatch_params = { params[:attribute] => nil }
+    
     if attachment_type == :carrierwave
-      detatch_params["remove_#{attribute}"] = true
+      # Doing this any other way raises Fog::Storage::Rackspace::NotFound errors
+      @item.send("remove_#{attribute}!")
+      @item.send("#{attribute}=", nil)
+      @item.send(:write_attribute, attribute, nil)
+      result = @item.save
+    else
+      detatch_params = { params[:attribute] => nil }
+      result = @item.update_attributes(detatch_params)
     end
-    if @item.update_attributes(detatch_params)
+    
+    if result
       redirect_on_success
     else
       render :edit
@@ -163,6 +171,8 @@ class Admin::ResourcesController < Admin::BaseController
 
   def get_objects
     eager_loading = @resource.reflect_on_all_associations(:belongs_to).reject { |i| i.options[:polymorphic] }.map { |i| i.name }
+
+    @resource = @resource.unscoped
 
     @resource.build_conditions(params).each do |condition|
       @resource = @resource.where(condition)
